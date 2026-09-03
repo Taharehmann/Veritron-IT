@@ -1,7 +1,9 @@
 @import "tailwindcss";
 
 /* ===== Global Responsive Foundation ===== */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -15,13 +17,178 @@ body {
   min-width: 0;
 }
 
-img, svg {
+img,
+svg {
   max-width: 100%;
   height: auto;
 }
 
+@keyframes heroSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-animate-1 {
+  animation: heroSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.hero-animate-2 {
+  animation: heroSlideUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+
+.hero-animate-3 {
+  animation: heroSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+.hero-animate-4 {
+  animation: heroSlideUp 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
+}
+
+.hero-animate-5 {
+  animation: heroSlideUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+}
+
+.hero-dashboard-animate {
+  animation: heroSlideUp 1.05s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+}
+
+/* ===== Motion & Keyframe Animations ===== */
+@keyframes floatGlow {
+
+  0%,
+  100% {
+    transform: translateY(0px) scale(1);
+    opacity: 0.18;
+  }
+
+  50% {
+    transform: translateY(-16px) scale(1.06);
+    opacity: 0.28;
+  }
+}
+
+@keyframes floatGlowSlow {
+
+  0%,
+  100% {
+    transform: translate(-50%, 0px) scale(1);
+    opacity: 0.2;
+  }
+
+  50% {
+    transform: translate(-50%, -20px) scale(1.1);
+    opacity: 0.35;
+  }
+}
+
+@keyframes equalizer {
+
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    transform: scaleY(0.65);
+  }
+}
+
+@keyframes tabFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.float-glow {
+  animation: floatGlow 7s ease-in-out infinite;
+}
+
+.float-glow-slow {
+  animation: floatGlowSlow 9s ease-in-out infinite;
+}
+
+.tab-animated {
+  animation: tabFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ===== Interactive Utilities ===== */
+.btn-interactive {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease !important;
+}
+
+.btn-interactive:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 25px -10px rgba(224, 164, 88, 0.4);
+}
+
+.btn-interactive:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-interactive svg {
+  transition: transform 0.25s ease;
+}
+
+.btn-interactive:hover svg {
+  transform: translateX(4px);
+}
+
+.card-interactive {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease !important;
+}
+
+.card-interactive:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 45px -20px rgba(30, 77, 63, 0.25);
+}
+
+.nav-link {
+  position: relative;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
 /* ===== Announcement Bar ===== */
 @media (max-width: 640px) {
+
   /* Announcement bar stacks text */
   [style*="background"][style*="pineDeep"] .flex.items-center.justify-center {
     flex-wrap: wrap;

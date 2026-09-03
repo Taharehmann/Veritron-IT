@@ -26,15 +26,15 @@ export default function Pricing() {
         <div style={{ display: "grid", gridTemplateColumns: isMd ? "repeat(3, 1fr)" : "1fr", gap: isMobile ? 20 : 24 }}>
           {PLANS.map((p, i) => (
             <Reveal key={p.name} delay={i * 100}>
-              <div className="lift" style={{ background: p.popular ? C.pine : C.surface, color: p.popular ? C.heroInk : C.ink, border: `1px solid ${p.popular ? C.pine : C.line}`, borderRadius: 22, padding: isMobile ? 24 : 32, position: "relative", height: "100%" }}>
-                {p.popular && <span style={{ position: "absolute", top: isMobile ? 16 : 20, right: isMobile ? 16 : 20, background: C.honey, color: C.pineDeep, fontSize: ".7rem", fontWeight: 700, padding: ".3rem .7rem", borderRadius: 999, letterSpacing: ".05em" }}>MOST POPULAR</span>}
+              <div className="card-interactive" style={{ background: p.popular ? C.pine : C.surface, color: p.popular ? C.heroInk : C.ink, border: `1px solid ${p.popular ? C.pine : C.line}`, borderRadius: 22, padding: isMobile ? 24 : 32, position: "relative", height: "100%", boxShadow: p.popular ? "0 20px 40px -15px rgba(30,77,63,.4)" : "none" }}>
+                {p.popular && <span style={{ position: "absolute", top: isMobile ? 16 : 20, right: isMobile ? 16 : 20, background: C.honey, color: C.pineDeep, fontSize: ".7rem", fontWeight: 700, padding: ".3rem .7rem", borderRadius: 999, letterSpacing: ".05em", boxShadow: "0 4px 12px rgba(224,164,88,.3)" }}>MOST POPULAR</span>}
                 <div style={{ fontWeight: 600, fontSize: ".82rem", letterSpacing: ".08em", textTransform: "uppercase", color: p.popular ? C.honey : C.honeyDk }}>{p.name}</div>
                 <div style={{ margin: "12px 0 4px", display: "flex", alignItems: "baseline", gap: 4 }}>
                   <span style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: isMobile ? "2.2rem" : "2.6rem" }}>{p.price === "—" ? "Custom" : `$${p.price}`}</span>
                   {p.price !== "—" && <span style={{ opacity: .7, fontSize: ".9rem" }}>/user/mo</span>}
                 </div>
                 <div style={{ fontSize: ".92rem", color: p.popular ? C.heroMuted : C.muted, marginBottom: 20 }}>{p.tag}</div>
-                <a href="#contact" style={{ ...btnP, width: "100%", justifyContent: "center", background: p.popular ? C.honey : C.pine, color: p.popular ? C.pineDeep : C.bg, marginBottom: 22 }}>Get started</a>
+                <a href="#contact" className="btn-interactive" style={{ ...btnP, width: "100%", justifyContent: "center", background: p.popular ? C.honey : C.pine, color: p.popular ? C.pineDeep : C.bg, marginBottom: 22 }}>Get started</a>
                 <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>{p.feats.map((f) => <div key={f} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: ".93rem" }}><Check size={16} color={p.popular ? C.honey : C.pine} strokeWidth={3} style={{ flexShrink: 0 }} /> {f}</div>)}</div>
               </div>
             </Reveal>

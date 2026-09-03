@@ -49,7 +49,7 @@ export default function Header({ dark, setDark }) {
                 </div>
               )}
             </div>
-            {["Industries", "Why Veritron", "Pricing"].map((x) => <a key={x} href={"#" + x.split(" ")[0].toLowerCase()} style={{ color: C.ink, opacity: .82 }}>{x}</a>)}
+            {["Industries", "Why Veritron", "Pricing"].map((x) => <a key={x} href={"#" + x.split(" ")[0].toLowerCase()} className="nav-link" style={{ color: C.ink, opacity: .82 }}>{x}</a>)}
           </nav>
         )}
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -66,14 +66,14 @@ export default function Header({ dark, setDark }) {
               display: "grid",
               placeItems: "center",
               color: C.ink,
-              transition: "background .3s ease, transform .2s ease",
+              transition: "background .3s ease, transform .25s cubic-bezier(0.16, 1, 0.3, 1)",
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = "rotate(20deg) scale(1.1)"; }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = "rotate(25deg) scale(1.12)"; }}
             onMouseLeave={(e) => { e.currentTarget.style.transform = "none"; }}
           >
             {dark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
-          {w >= 640 && <a href="#contact" style={btnP}>Book a free IT check</a>}
+          {w >= 640 && <a href="#contact" className="btn-interactive" style={btnP}>Book a free IT check</a>}
           {!isMd && (
             <button onClick={() => setMobile(!mobile)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, color: C.ink }}>
               {mobile ? <X size={24} /> : <Menu size={24} />}
