@@ -2,16 +2,42 @@ import { createContext, useContext } from "react";
 
 export const LIGHT = {
   isDark: false,
-  bg: "#F6F1E8", surface: "#FFFFFF", surfaceAlt: "#FBF8F2", ink: "#221E19", muted: "#6E6A5F",
-  pine: "#1E4D3F", pineDk: "#143A2E", pineDeep: "#0C271F", honey: "#E0A458", honeyDk: "#CE8A38",
-  sage: "#8FA890", line: "#E4DBCB", heroInk: "#EAF2EC", heroMuted: "#9DB4A6",
+  bg: "#f8fafc",
+  surface: "#ffffff",
+  surfaceAlt: "#f1f5f9",
+  ink: "#0f172a",
+  muted: "#475569",
+  pine: "#2563eb",
+  pineDk: "#1d4ed8",
+  pineDeep: "#0f172a",
+  honey: "#2563eb",
+  honeyDk: "#1d4ed8",
+  sage: "#38bdf8",
+  line: "#e2e8f0",
+  heroInk: "#0f172a",
+  heroMuted: "#475569",
+  cyan: "#00f0ff",
+  accent: "#2563eb",
 };
 
 export const DARK = {
   isDark: true,
-  bg: "#1E1E22", surface: "#27272B", surfaceAlt: "#2F2F34", ink: "#E8E4DF", muted: "#9B978E",
-  pine: "#3B9B7A", pineDk: "#5EC9A0", pineDeep: "#16161A", honey: "#E0A458", honeyDk: "#CE8A38",
-  sage: "#8FA890", line: "#3A3A3F", heroInk: "#EAF2EC", heroMuted: "#9DB4A6",
+  bg: "#0f172a",
+  surface: "#1e293b",
+  surfaceAlt: "rgba(30, 41, 59, 0.7)",
+  ink: "#f8fafc",
+  muted: "#94a3b8",
+  pine: "#38bdf8",
+  pineDk: "#00f0ff",
+  pineDeep: "#0a0f1d",
+  honey: "#38bdf8",
+  honeyDk: "#00f0ff",
+  sage: "#60a5fa",
+  line: "rgba(255, 255, 255, 0.12)",
+  heroInk: "#f8fafc",
+  heroMuted: "#94a3b8",
+  cyan: "#00f0ff",
+  accent: "#00f0ff",
 };
 
 export const ThemeCtx = createContext(LIGHT);

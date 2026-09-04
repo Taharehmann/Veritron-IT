@@ -21,7 +21,7 @@ export default function Header({ dark, setDark }) {
   const btnP = { display: "inline-flex", alignItems: "center", gap: 8, background: C.pine, color: C.bg, padding: isMobile ? ".75rem 1.2rem" : ".85rem 1.5rem", borderRadius: 999, fontWeight: 600, textDecoration: "none", cursor: "pointer", border: "none", fontSize: isMobile ? ".88rem" : ".97rem" };
 
   return (
-    <header style={{ position: "sticky", top: 0, zIndex: 60, background: C.isDark ? "rgba(15, 23, 42, 0.92)" : "rgba(246, 241, 232, 0.85)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.line}`, transition: "background .4s ease" }}>
+    <header style={{ position: "sticky", top: 0, zIndex: 60, background: C.isDark ? "rgba(15, 23, 42, 0.92)" : "rgba(248, 250, 252, 0.88)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.line}`, transition: "background .4s ease" }}>
       <div style={{ maxWidth: 1152, margin: "0 auto", padding: `0 ${px}px`, display: "flex", alignItems: "center", justifyContent: "space-between", height: isMobile ? 60 : 72 }}>
         <a href="#top" style={{ display: "flex", alignItems: "center", gap: isMobile ? 8 : 12, textDecoration: "none" }}>
           <Logo size={isMobile ? 32 : 40} />
