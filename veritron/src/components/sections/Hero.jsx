@@ -126,13 +126,11 @@ export default function Hero() {
           Bridging Innovation and{" "}
           <span
             style={{
-              background: isDark
-                ? "linear-gradient(135deg, #00f0ff 0%, #38bdf8 50%, #60a5fa 100%)"
-                : "linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #0284c7 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              color: isDark ? "#00f0ff" : "#2563eb",
+              textShadow: isDark
+                ? "0 0 30px rgba(0, 240, 255, 0.5), 0 0 60px rgba(0, 240, 255, 0.25)"
+                : "0 0 20px rgba(37, 99, 235, 0.2)",
               display: "inline-block",
-              filter: isDark ? "drop-shadow(0 0 25px rgba(0, 240, 255, 0.3))" : "none",
             }}
           >
             Connectivity
