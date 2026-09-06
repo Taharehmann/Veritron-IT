@@ -15,6 +15,7 @@ import Pricing from "./components/sections/Pricing";
 import ContactCTA from "./components/sections/ContactCTA";
 import Footer from "./components/sections/Footer";
 import WhatsAppButton from "./components/sections/WhatsAppButton";
+import Preloader from "./components/ui/Preloader";
 
 export default function VeritronApp() {
   const [bar, setBar] = useState(true);
@@ -35,6 +36,7 @@ export default function VeritronApp() {
 
   return (
     <ThemeCtx.Provider value={C}>
+      <Preloader />
       <div style={{ fontFamily: BODY, background: C.bg, color: C.ink, overflowX: "clip", transition: "background .4s ease, color .4s ease" }}>
         {/* Global keyframes & utility classes */}
         <style>{`

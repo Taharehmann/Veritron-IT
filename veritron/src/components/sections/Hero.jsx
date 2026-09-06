@@ -3,6 +3,7 @@ import { ArrowRight, ShieldCheck, Zap, Clock, Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTheme } from "../../context/ThemeContext";
 import useScreen from "../../hooks/useScreen";
+import usePreloaderDone from "../../hooks/usePreloaderDone";
 import { TOOLS } from "../../constants/data";
 import { DISPLAY } from "../../constants/typography";
 import Hero3DMesh from "../ui/Hero3DMesh";
@@ -11,6 +12,7 @@ export default function Hero() {
   const C = useTheme();
   const { isMobile } = useScreen();
   const isDark = C.isDark;
+  const preloaderDone = usePreloaderDone();
 
   return (
     <section
@@ -69,9 +71,9 @@ export default function Hero() {
       >
         {/* Futuristic Cyber Badge */}
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={preloaderDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+          transition={{ duration: 0.48, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -109,9 +111,9 @@ export default function Hero() {
 
         {/* Centered Futuristic Main Headline */}
         <motion.h1
-          initial={{ opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          initial={{ opacity: 0, y: 14 }}
+          animate={preloaderDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+          transition={{ duration: 0.52, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
           style={{
             fontFamily: DISPLAY,
             fontWeight: 800,
@@ -139,9 +141,9 @@ export default function Hero() {
 
         {/* Subtitle Paragraph */}
         <motion.p
-          initial={{ opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          initial={{ opacity: 0, y: 14 }}
+          animate={preloaderDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+          transition={{ duration: 0.52, delay: 0.26, ease: [0.16, 1, 0.3, 1] }}
           style={{
             fontSize: isMobile ? "1rem" : "1.2rem",
             lineHeight: 1.65,
@@ -157,9 +159,9 @@ export default function Hero() {
 
         {/* Futuristic Primary & Secondary Action Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+          initial={{ opacity: 0, y: 14 }}
+          animate={preloaderDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+          transition={{ duration: 0.52, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
           style={{
             display: "flex",
             gap: 16,
@@ -233,9 +235,9 @@ export default function Hero() {
 
         {/* Futuristic Floating Glassmorphic Stat Badges */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4, ease: "easeOut" }}
+          initial={{ opacity: 0, y: 16 }}
+          animate={preloaderDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+          transition={{ duration: 0.56, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
           style={{
             display: "grid",
             gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
@@ -269,9 +271,8 @@ export default function Hero() {
                 background: isDark
                   ? "rgba(30, 41, 59, 0.55)"
                   : "rgba(255, 255, 255, 0.75)",
-                border: `1.5px solid ${
-                  isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.08)"
-                }`,
+                border: `1.5px solid ${isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.08)"
+                  }`,
                 borderRadius: 16,
                 padding: "16px 20px",
                 display: "flex",
