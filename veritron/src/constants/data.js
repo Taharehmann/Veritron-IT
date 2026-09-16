@@ -15,7 +15,7 @@ export const MEGA = [
 ];
 
 export const TOOLS = [
-  "Microsoft 365", "Google Workspace", "Windows", "macOS", "Azure",
+  "Microsoft 365", "Google Workspace", "Windows", "macOS", "Azure", "AWS",
   "SharePoint", "Fortinet", "Ubiquiti", "Cisco", "Datto", "SentinelOne", "Autotask",
 ];
 
@@ -47,9 +47,9 @@ export const PLANS = [
 ];
 
 export const QUOTES = [
-  { q: "They moved our whole office to Microsoft 365 over a weekend and nobody lost a minute on Monday.", n: "[Client name]", r: "Practice Manager · Dental", s: 5 },
-  { q: "First IT company that actually explains things. We finally feel on top of our systems.", n: "[Client name]", r: "Director · Accounting Firm", s: 5 },
-  { q: "Something breaks, one message and it's handled. That peace of mind is worth every cent.", n: "[Client name]", r: "Operations · Construction", s: 5 },
+  { q: "They moved our whole office to Microsoft 365 over a weekend and nobody lost a minute on Monday.", n: "Oliver James", r: "Practice Manager · Dental", s: 5 },
+  { q: "First IT company that actually explains things. We finally feel on top of our systems.", n: "Noah Thomas", r: "Director · Accounting Firm", s: 5 },
+  { q: "Something breaks, one message and it's handled. That peace of mind is worth every cent.", n: "Charlotte Grace", r: "Operations · Construction", s: 5 },
 ];
 
 export const FEED = [

@@ -106,7 +106,7 @@ export default function Hero() {
                 : "0 0 10px #2563eb",
             }}
           />
-          <span>NEXT-GEN MANAGED IT & CYBERSECURITY</span>
+          <span>RELIABLE IT SERVICES  & STRONGER SECURITY</span>
         </motion.div>
 
         {/* Centered Futuristic Main Headline */}
