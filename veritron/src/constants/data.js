@@ -8,13 +8,9 @@ import {
 
 export const MEGA = [
   { icon: Server, t: "Managed IT", d: "Your whole IT department, on call", slug: "managed-it" },
-  { icon: Cloud, t: "Cloud Solutions", d: "Microsoft 365 & Google Workspace", slug: "cloud-email" },
-  { icon: Mail, t: "Business Email", d: "Secure, professional, spam-free", slug: "cloud-email" },
+  { icon: Cloud, t: "Cloud & Email", d: "Microsoft 365 & Google Workspace", slug: "cloud-email" },
   { icon: Wifi, t: "Network Solutions", d: "Wi-Fi, firewalls, VPN & remote access", slug: "networks" },
-  { icon: HardDrive, t: "Hardware Services", d: "Setup, upgrades & relocations", slug: "hardware-procurement" },
-  { icon: Package, t: "IT Procurement", d: "The right kit at the right price", slug: "hardware-procurement" },
-  { icon: MousePointerClick, t: "Remote Support", d: "Help without the wait", slug: "managed-it" },
-  { icon: Truck, t: "On-Site Support", d: "Hands on deck when it counts", slug: "managed-it" },
+  { icon: HardDrive, t: "Hardware & Procurement", d: "Setup, upgrades & relocations", slug: "hardware-procurement" },
 ];
 
 export const TOOLS = [

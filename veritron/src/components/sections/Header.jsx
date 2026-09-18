@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ChevronRight, ArrowRight, Menu, X, Moon, Sun } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 import useScreen from "../../hooks/useScreen";
@@ -12,14 +12,37 @@ export default function Header({ dark, setDark }) {
   const { isMobile, isMd, w } = useScreen();
   const [mega, setMega] = useState(false);
   const [mobile, setMobile] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const megaTimeout = useRef(null);
 
   // Close mobile nav on resize to desktop
   useEffect(() => {
     if (isMd && mobile) setMobile(false);
   }, [isMd]);
 
+  // Close mega menu on route change
+  useEffect(() => {
+    setMega(false);
+    setMobile(false);
+  }, [location.pathname]);
+
   const px = isMobile ? 16 : 24;
   const btnP = { display: "inline-flex", alignItems: "center", gap: 8, background: C.pine, color: C.bg, padding: isMobile ? ".75rem 1.2rem" : ".85rem 1.5rem", borderRadius: 999, fontWeight: 600, textDecoration: "none", cursor: "pointer", border: "none", fontSize: isMobile ? ".88rem" : ".97rem" };
+
+  const handleMegaEnter = () => {
+    if (megaTimeout.current) clearTimeout(megaTimeout.current);
+    setMega(true);
+  };
+  const handleMegaLeave = () => {
+    megaTimeout.current = setTimeout(() => setMega(false), 150);
+  };
+
+  const handleServiceClick = (slug, e) => {
+    e.preventDefault();
+    setMega(false);
+    navigate(`/services/${slug}`);
+  };
 
   return (
     <header style={{ position: "sticky", top: 0, zIndex: 60, background: C.isDark ? "rgba(15, 23, 42, 0.92)" : "rgba(248, 250, 252, 0.88)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.line}`, transition: "background .4s ease" }}>
@@ -34,19 +57,37 @@ export default function Header({ dark, setDark }) {
         {/* Desktop nav */}
         {isMd && (
           <nav style={{ display: "flex", alignItems: "center", gap: w < 900 ? 16 : 28, fontSize: ".95rem", fontWeight: 500 }}>
-            <div onMouseEnter={() => setMega(true)} onMouseLeave={() => setMega(false)} style={{ position: "relative" }}>
+            <div onMouseEnter={handleMegaEnter} onMouseLeave={handleMegaLeave} style={{ position: "relative" }}>
               <button style={{ background: "none", border: "none", font: "inherit", color: C.ink, cursor: "pointer", display: "flex", alignItems: "center", gap: 4, padding: "8px 0" }}>Services <ChevronRight size={15} style={{ transform: mega ? "rotate(90deg)" : "none", transition: ".2s" }} /></button>
               {mega && (
                 <div style={{ position: "absolute", top: 44, left: -20, width: Math.min(640, w - 40), background: C.surface, border: `1px solid ${C.line}`, borderRadius: 18, boxShadow: "0 30px 70px -30px rgba(30,60,50,.4)", padding: 18, zIndex: 100 }}>
                   <div style={{ display: "grid", gridTemplateColumns: w < 900 ? "1fr" : "1fr 1fr", gap: 4 }}>
-                    {MEGA.map((m) => (
-                      <Link key={m.t} to={`/services/${m.slug}`} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: 12, borderRadius: 12, color: C.ink, textDecoration: "none" }}
-                        onClick={() => setMega(false)}
-                        onMouseEnter={(e) => e.currentTarget.style.background = C.surfaceAlt} onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
-                        <span style={{ width: 38, height: 38, borderRadius: 10, background: C.surfaceAlt, display: "grid", placeItems: "center", flexShrink: 0 }}><m.icon size={18} color={C.pine} /></span>
-                        <span><b style={{ display: "block", fontSize: ".92rem" }}>{m.t}</b><small style={{ color: C.muted, fontSize: ".8rem" }}>{m.d}</small></span>
-                      </Link>
-                    ))}
+                    {MEGA.map((m) => {
+                      const isActive = location.pathname === `/services/${m.slug}`;
+                      return (
+                        <a
+                          key={m.t}
+                          href={`/services/${m.slug}`}
+                          onClick={(e) => handleServiceClick(m.slug, e)}
+                          style={{
+                            display: "flex",
+                            alignItems: "flex-start",
+                            gap: 12,
+                            padding: 12,
+                            borderRadius: 12,
+                            color: C.ink,
+                            textDecoration: "none",
+                            background: isActive ? C.surfaceAlt : "transparent",
+                            cursor: "pointer",
+                          }}
+                          onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.background = C.surfaceAlt; }}
+                          onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = "transparent"; }}
+                        >
+                          <span style={{ width: 38, height: 38, borderRadius: 10, background: C.surfaceAlt, display: "grid", placeItems: "center", flexShrink: 0 }}><m.icon size={18} color={C.pine} /></span>
+                          <span><b style={{ display: "block", fontSize: ".92rem" }}>{m.t}</b><small style={{ color: C.muted, fontSize: ".8rem" }}>{m.d}</small></span>
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -86,7 +127,27 @@ export default function Header({ dark, setDark }) {
       {/* Mobile nav drawer */}
       {mobile && !isMd && (
         <div style={{ borderTop: `1px solid ${C.line}`, padding: "12px 16px 20px", background: C.surface }}>
-          <Link to="/#solutions" onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 0", color: C.ink, fontWeight: 500, fontSize: "1.05rem", borderBottom: `1px solid ${C.line}` }}>Services</Link>
+          {MEGA.map((m) => (
+            <a
+              key={m.slug}
+              href={`/services/${m.slug}`}
+              onClick={(e) => { e.preventDefault(); setMobile(false); navigate(`/services/${m.slug}`); }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                padding: "12px 0",
+                color: location.pathname === `/services/${m.slug}` ? C.pine : C.ink,
+                fontWeight: location.pathname === `/services/${m.slug}` ? 700 : 500,
+                fontSize: "1.05rem",
+                borderBottom: `1px solid ${C.line}`,
+                textDecoration: "none",
+                cursor: "pointer",
+              }}
+            >
+              <m.icon size={18} color={C.pine} /> {m.t}
+            </a>
+          ))}
           <Link to="/#industries" onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 0", color: C.ink, fontWeight: 500, fontSize: "1.05rem", borderBottom: `1px solid ${C.line}` }}>Industries</Link>
           <Link to="/#why" onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 0", color: C.ink, fontWeight: 500, fontSize: "1.05rem", borderBottom: `1px solid ${C.line}` }}>Why Veritron</Link>
           <Link to="/#pricing" onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 0", color: C.ink, fontWeight: 500, fontSize: "1.05rem", borderBottom: `1px solid ${C.line}` }}>Pricing</Link>

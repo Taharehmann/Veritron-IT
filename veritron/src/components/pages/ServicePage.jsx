@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   ArrowLeft, ArrowRight, ChevronDown, ChevronUp,
@@ -9,6 +9,28 @@ import useScreen from "../../hooks/useScreen";
 import { SOLUTIONS } from "../../constants/data";
 import { DISPLAY } from "../../constants/typography";
 import Reveal from "../ui/Reveal";
+
+/* ── Preload all service hero images once on app load ── */
+const _preloadedImages = new Set();
+function preloadAllServiceImages() {
+  SOLUTIONS.forEach((s) => {
+    if (s.heroImage && !_preloadedImages.has(s.heroImage)) {
+      _preloadedImages.add(s.heroImage);
+      const img = new Image();
+      img.src = s.heroImage;
+    }
+  });
+}
+// Kick off preloading immediately when this module is first imported
+preloadAllServiceImages();
+
+/* ── Check if an image is already cached by the browser ── */
+function isImageCached(src) {
+  if (!src) return false;
+  const img = new Image();
+  img.src = src;
+  return img.complete && img.naturalWidth > 0;
+}
 
 /* ── FAQ Accordion Item ── */
 function FaqItem({ q, a, isOpen, onClick, C, isMobile }) {
@@ -94,14 +116,34 @@ export default function ServicePage() {
 
   const sol = SOLUTIONS.find((s) => s.slug === slug);
   const [openFaq, setOpenFaq] = useState(null);
-  const [imgLoaded, setImgLoaded] = useState(false);
+
+  // Check if image is already cached — if so, show it instantly (no fade)
+  const [imgLoaded, setImgLoaded] = useState(() =>
+    sol ? isImageCached(sol.heroImage) : false
+  );
 
   /* Scroll to top on mount / slug change */
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
-    setImgLoaded(false);
+    // If the image is already cached, show it instantly; otherwise wait for onLoad
+    const cached = sol ? isImageCached(sol.heroImage) : false;
+    setImgLoaded(cached);
     setOpenFaq(null);
-  }, [slug]);
+
+    // Add a preload link hint to the document head for the current service image
+    if (sol?.heroImage) {
+      let link = document.querySelector(`link[data-hero-preload="${sol.heroImage}"]`);
+      if (!link) {
+        link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "image";
+        link.href = sol.heroImage;
+        link.setAttribute("data-hero-preload", sol.heroImage);
+        link.setAttribute("fetchpriority", "high");
+        document.head.appendChild(link);
+      }
+    }
+  }, [slug, sol]);
 
   /* 404 — service not found */
   if (!sol) {
@@ -314,6 +356,9 @@ export default function ServicePage() {
                 <img
                   src={sol.heroImage}
                   alt={sol.label}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="sync"
                   onLoad={() => setImgLoaded(true)}
                   style={{
                     width: "100%",
@@ -321,7 +366,7 @@ export default function ServicePage() {
                     objectFit: "cover",
                     display: "block",
                     opacity: imgLoaded ? 1 : 0,
-                    transition: "opacity .6s ease",
+                    transition: imgLoaded ? "none" : "opacity .2s ease",
                   }}
                 />
                 {/* Gradient overlay */}
@@ -499,9 +544,9 @@ export default function ServicePage() {
                     <div
                       style={{
                         position: "absolute",
-                        top: isMobile ? 28 : 34,
-                        left: "60%",
-                        right: "-40%",
+                        top: 34,
+                        left: "calc(50% + 40px)",
+                        right: "calc(-50% + 40px)",
                         height: 2,
                         background: `linear-gradient(90deg, ${C.pine}, transparent)`,
                         opacity: .3,
