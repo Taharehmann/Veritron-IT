@@ -399,19 +399,24 @@ export default function ContactCTA() {
     e.preventDefault();
     setSending(true);
 
-    // Encode form data for Netlify
-    const encode = (data) =>
-      Object.keys(data)
-        .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-        .join("&");
+    const payload = {
+      "form-name": "contact",
+      "bot-field": "",
+      name: form.name,
+      email: form.email,
+      phone: form.phone || "",
+      company: form.company || "",
+      service: form.service,
+      message: form.message || "",
+    };
 
     fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({ "form-name": "contact", ...form }),
+      body: new URLSearchParams(payload).toString(),
     })
       .then((res) => {
-        if (!res.ok) throw new Error("Form submission failed");
+        if (!res.ok) throw new Error("Form submission failed: " + res.status);
         setSending(false);
         setSubmitted(true);
         setToastName(form.name);
