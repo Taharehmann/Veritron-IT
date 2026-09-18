@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { ChevronRight, ArrowRight, Menu, X, Moon, Sun } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 import useScreen from "../../hooks/useScreen";
@@ -23,13 +24,13 @@ export default function Header({ dark, setDark }) {
   return (
     <header style={{ position: "sticky", top: 0, zIndex: 60, background: C.isDark ? "rgba(15, 23, 42, 0.92)" : "rgba(248, 250, 252, 0.88)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.line}`, transition: "background .4s ease" }}>
       <div style={{ maxWidth: 1152, margin: "0 auto", padding: `0 ${px}px`, display: "flex", alignItems: "center", justifyContent: "space-between", height: isMobile ? 60 : 72 }}>
-        <a href="#top" style={{ display: "flex", alignItems: "center", gap: isMobile ? 8 : 12, textDecoration: "none" }}>
+        <Link to="/" style={{ display: "flex", alignItems: "center", gap: isMobile ? 8 : 12, textDecoration: "none" }}>
           <Logo size={isMobile ? 32 : 40} />
           <div style={{ lineHeight: 1 }}>
             <div style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: isMobile ? "1.1rem" : "1.35rem", color: C.ink }}>Veritron</div>
             <div style={{ fontSize: ".52rem", letterSpacing: ".3em", color: C.pine, fontWeight: 600, marginTop: 2 }}>IT SOLUTIONS</div>
           </div>
-        </a>
+        </Link>
         {/* Desktop nav */}
         {isMd && (
           <nav style={{ display: "flex", alignItems: "center", gap: w < 900 ? 16 : 28, fontSize: ".95rem", fontWeight: 500 }}>
@@ -39,17 +40,18 @@ export default function Header({ dark, setDark }) {
                 <div style={{ position: "absolute", top: 44, left: -20, width: Math.min(640, w - 40), background: C.surface, border: `1px solid ${C.line}`, borderRadius: 18, boxShadow: "0 30px 70px -30px rgba(30,60,50,.4)", padding: 18, zIndex: 100 }}>
                   <div style={{ display: "grid", gridTemplateColumns: w < 900 ? "1fr" : "1fr 1fr", gap: 4 }}>
                     {MEGA.map((m) => (
-                      <a key={m.t} href="#solutions" style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: 12, borderRadius: 12, color: C.ink, textDecoration: "none" }}
+                      <Link key={m.t} to={`/services/${m.slug}`} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: 12, borderRadius: 12, color: C.ink, textDecoration: "none" }}
+                        onClick={() => setMega(false)}
                         onMouseEnter={(e) => e.currentTarget.style.background = C.surfaceAlt} onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
                         <span style={{ width: 38, height: 38, borderRadius: 10, background: C.surfaceAlt, display: "grid", placeItems: "center", flexShrink: 0 }}><m.icon size={18} color={C.pine} /></span>
                         <span><b style={{ display: "block", fontSize: ".92rem" }}>{m.t}</b><small style={{ color: C.muted, fontSize: ".8rem" }}>{m.d}</small></span>
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
               )}
             </div>
-            {["Industries", "Why Veritron", "Pricing"].map((x) => <a key={x} href={"#" + x.split(" ")[0].toLowerCase()} className="nav-link" style={{ color: C.ink, opacity: .82 }}>{x}</a>)}
+            {["Industries", "Why Veritron", "Pricing"].map((x) => <Link key={x} to={"/#" + x.split(" ")[0].toLowerCase()} className="nav-link" style={{ color: C.ink, opacity: .82 }}>{x}</Link>)}
           </nav>
         )}
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -73,7 +75,7 @@ export default function Header({ dark, setDark }) {
           >
             {dark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
-          {w >= 640 && <a href="#contact" className="btn-interactive" style={btnP}>Book a free IT check</a>}
+          {w >= 640 && <Link to="/#contact" className="btn-interactive" style={btnP}>Book a free IT check</Link>}
           {!isMd && (
             <button onClick={() => setMobile(!mobile)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, color: C.ink }}>
               {mobile ? <X size={24} /> : <Menu size={24} />}
@@ -84,10 +86,12 @@ export default function Header({ dark, setDark }) {
       {/* Mobile nav drawer */}
       {mobile && !isMd && (
         <div style={{ borderTop: `1px solid ${C.line}`, padding: "12px 16px 20px", background: C.surface }}>
-          {["Services", "Industries", "Why Veritron", "Pricing", "Contact"].map((x) => (
-            <a key={x} href={"#" + x.split(" ")[0].toLowerCase()} onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 0", color: C.ink, fontWeight: 500, fontSize: "1.05rem", borderBottom: `1px solid ${C.line}` }}>{x}</a>
-          ))}
-          <a href="#contact" style={{ ...btnP, width: "100%", justifyContent: "center", marginTop: 16 }}>Book a free IT check <ArrowRight size={16} /></a>
+          <Link to="/#solutions" onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 0", color: C.ink, fontWeight: 500, fontSize: "1.05rem", borderBottom: `1px solid ${C.line}` }}>Services</Link>
+          <Link to="/#industries" onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 0", color: C.ink, fontWeight: 500, fontSize: "1.05rem", borderBottom: `1px solid ${C.line}` }}>Industries</Link>
+          <Link to="/#why" onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 0", color: C.ink, fontWeight: 500, fontSize: "1.05rem", borderBottom: `1px solid ${C.line}` }}>Why Veritron</Link>
+          <Link to="/#pricing" onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 0", color: C.ink, fontWeight: 500, fontSize: "1.05rem", borderBottom: `1px solid ${C.line}` }}>Pricing</Link>
+          <Link to="/#contact" onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 0", color: C.ink, fontWeight: 500, fontSize: "1.05rem", borderBottom: `1px solid ${C.line}` }}>Contact</Link>
+          <Link to="/#contact" style={{ ...btnP, width: "100%", justifyContent: "center", marginTop: 16 }}>Book a free IT check <ArrowRight size={16} /></Link>
         </div>
       )}
     </header>

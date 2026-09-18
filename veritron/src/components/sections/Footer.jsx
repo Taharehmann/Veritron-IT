@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import useScreen from "../../hooks/useScreen";
 import { DISPLAY } from "../../constants/typography";
@@ -69,8 +70,8 @@ export default function Footer() {
   const contactItems = [
     {
       icon: MailIcon,
-      text: "hello@veritron.com.au",
-      href: "mailto:hello@veritron.com.au",
+      text: "info@veritron.com.au",
+      href: "mailto:info@veritron.com.au",
     },
     {
       icon: PhoneIcon,
@@ -130,22 +131,23 @@ export default function Footer() {
             >
               Services
             </h4>
-            {["Managed IT", "Cloud & Email", "Networks", "Hardware & Procurement"].map((x) => (
-              <a
-                key={x}
-                href="#solutions"
+            {[{label: "Managed IT", slug: "managed-it"}, {label: "Cloud & Email", slug: "cloud-email"}, {label: "Networks", slug: "networks"}, {label: "Hardware & Procurement", slug: "hardware-procurement"}].map((x) => (
+              <Link
+                key={x.slug}
+                to={`/services/${x.slug}`}
                 style={{
                   display: "block",
                   padding: "6px 0",
                   fontSize: ".92rem",
                   color: "#94a3b8",
                   transition: "color 0.2s ease",
+                  textDecoration: "none",
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "#38bdf8")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "#94a3b8")}
               >
-                {x}
-              </a>
+                {x.label}
+              </Link>
             ))}
           </div>
 

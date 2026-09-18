@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Check, ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Check, ArrowUpRight, ArrowRight } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 import useScreen from "../../hooks/useScreen";
 import { SOLUTIONS } from "../../constants/data";
@@ -60,7 +61,10 @@ export default function Solutions() {
             <span style={{ width: isMobile ? 44 : 54, height: isMobile ? 44 : 54, borderRadius: 15, background: C.surfaceAlt, display: "grid", placeItems: "center", marginBottom: 18 }}><sol.icon size={isMobile ? 22 : 26} color={C.pine} /></span>
             <h3 style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: isMobile ? "1.35rem" : "1.7rem", color: C.pineDk }}>{sol.h}</h3>
             <p style={{ color: C.muted, fontSize: isMobile ? ".95rem" : "1.05rem", margin: "12px 0 20px" }}>{sol.p}</p>
-            <a href="#contact" className="btn-interactive" style={{ ...btnP, background: "transparent", color: C.pine, border: `1.5px solid ${C.pine}`, fontSize: isMobile ? ".85rem" : ".97rem" }}>Talk to us about this <ArrowUpRight size={16} /></a>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <Link to={`/services/${sol.slug}`} className="btn-interactive" style={{ ...btnP, fontSize: isMobile ? ".85rem" : ".97rem" }}>Learn more <ArrowRight size={16} /></Link>
+              <a href="#contact" className="btn-interactive" style={{ ...btnP, background: "transparent", color: C.pine, border: `1.5px solid ${C.pine}`, fontSize: isMobile ? ".85rem" : ".97rem" }}>Talk to us <ArrowUpRight size={16} /></a>
+            </div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {sol.pts.map((p, idx) => (

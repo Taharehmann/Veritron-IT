@@ -1,6 +1,25 @@
 import React, { useState, useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { ThemeCtx, LIGHT, DARK } from "./context/ThemeContext";
 import { BODY } from "./constants/typography";
+
+/* ── Scroll to hash section after navigation ── */
+function ScrollToHash() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (hash) {
+      // Small delay to allow the DOM to render
+      const timer = setTimeout(() => {
+        const el = document.querySelector(hash);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+      return () => clearTimeout(timer);
+    } else {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+  }, [pathname, hash]);
+  return null;
+}
 
 /* ── Section components ── */
 import AnnouncementBar from "./components/sections/AnnouncementBar";
@@ -16,6 +35,25 @@ import ContactCTA from "./components/sections/ContactCTA";
 import Footer from "./components/sections/Footer";
 import WhatsAppButton from "./components/sections/WhatsAppButton";
 import Preloader from "./components/ui/Preloader";
+
+/* ── Pages ── */
+import ServicePage from "./components/pages/ServicePage";
+
+/* ── Homepage ── */
+function HomePage() {
+  return (
+    <>
+      <Hero />
+      <Stats />
+      <Solutions />
+      <WhyVeritron />
+      <Industries />
+      <Testimonials />
+      <Pricing />
+      <ContactCTA />
+    </>
+  );
+}
 
 export default function VeritronApp() {
   const [bar, setBar] = useState(true);
@@ -52,14 +90,13 @@ export default function VeritronApp() {
 
         {bar && <AnnouncementBar onDismiss={() => setBar(false)} />}
         <Header dark={dark} setDark={setDark} />
-        <Hero />
-        <Stats />
-        <Solutions />
-        <WhyVeritron />
-        <Industries />
-        <Testimonials />
-        <Pricing />
-        <ContactCTA />
+        <ScrollToHash />
+
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/services/:slug" element={<ServicePage />} />
+        </Routes>
+
         <Footer />
         <WhatsAppButton />
       </div>
