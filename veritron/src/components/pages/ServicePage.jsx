@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   ArrowLeft, ArrowRight, ChevronDown, ChevronUp,
-  Check, Phone, Mail,
+  Check, Phone, ClipboardList,
 } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 import useScreen from "../../hooks/useScreen";
@@ -297,8 +297,8 @@ export default function ServicePage() {
                   {sol.p}
                 </p>
                 <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-                  <a
-                    href="mailto:info@veritron.com.au"
+                  <Link
+                    to="/#contact"
                     className="btn-interactive"
                     style={{
                       display: "inline-flex",
@@ -315,7 +315,7 @@ export default function ServicePage() {
                     }}
                   >
                     Get started <ArrowRight size={18} />
-                  </a>
+                  </Link>
                   <a
                     href="tel:61450513399"
                     className="btn-interactive"
@@ -876,8 +876,8 @@ export default function ServicePage() {
                   flexWrap: "wrap",
                 }}
               >
-                <a
-                  href="mailto:info@veritron.com.au"
+                <Link
+                  to="/#contact"
                   className="btn-interactive"
                   style={{
                     display: "inline-flex",
@@ -895,8 +895,8 @@ export default function ServicePage() {
                     justifyContent: "center",
                   }}
                 >
-                  <Mail size={18} /> Book a free IT check
-                </a>
+                  <ClipboardList size={18} /> Book a free IT check
+                </Link>
                 <a
                   href="tel:61450513399"
                   className="btn-interactive"

@@ -40,7 +40,7 @@ export default function Pricing() {
             </Reveal>
           ))}
         </div>
-        <p style={{ textAlign: "center", color: C.muted, fontSize: ".85rem", marginTop: 20 }}>Prices shown are examples — final pricing tailored to your setup.</p>
+        {/* <p style={{ textAlign: "center", color: C.muted, fontSize: ".85rem", marginTop: 20 }}>Prices shown are examples — final pricing tailored to your setup.</p> */}
       </div>
     </section>
   );
