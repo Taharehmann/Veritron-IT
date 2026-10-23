@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { ThemeCtx, LIGHT, DARK } from "./context/ThemeContext";
 import { BODY } from "./constants/typography";
+
+/* ── Smooth Scroll & 3D WebGL Canvas ── */
+import useLenisScroll from "./hooks/useLenisScroll";
+import ThreeCanvas from "./components/ui/ThreeCanvas";
 
 /* ── Scroll to hash section after navigation ── */
 function ScrollToHash() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
     if (hash) {
-      // Small delay to allow the DOM to render
       const timer = setTimeout(() => {
         const el = document.querySelector(hash);
         if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -21,85 +23,124 @@ function ScrollToHash() {
   return null;
 }
 
-/* ── Section components ── */
-import AnnouncementBar from "./components/sections/AnnouncementBar";
+/* ── Contour UI Sections ── */
 import Header from "./components/sections/Header";
-import Hero from "./components/sections/Hero";
-import Stats from "./components/sections/Stats";
-import Solutions from "./components/sections/Solutions";
-import WhyVeritron from "./components/sections/WhyVeritron";
-import Industries from "./components/sections/Industries";
-import Testimonials from "./components/sections/Testimonials";
-import Pricing from "./components/sections/Pricing";
-import ContactCTA from "./components/sections/ContactCTA";
-import Footer from "./components/sections/Footer";
+import ContourHeroPinned from "./components/sections/ContourHeroPinned";
+import ContourLogoMarquee from "./components/sections/ContourLogoMarquee";
+import ContourTestimonial from "./components/sections/ContourTestimonial";
+import ContourMediaText from "./components/sections/ContourMediaText";
+import ContourCaseStudies3D from "./components/sections/ContourCaseStudies3D";
+import ContourSolutions from "./components/sections/ContourSolutions";
+import ContourFooter from "./components/sections/ContourFooter";
 import WhatsAppButton from "./components/sections/WhatsAppButton";
 import Preloader from "./components/ui/Preloader";
+
+/* ── Interactive Modals / Drawers ── */
+import { CaseStudyModal, ContactModal, InsightsModal, ApproachModal } from "./components/ui/ContourModals";
 
 /* ── Pages ── */
 import ServicePage from "./components/pages/ServicePage";
 
-/* ── Homepage ── */
-function HomePage() {
-  return (
-    <>
-      <Hero />
-      <Stats />
-      <Solutions />
-      <WhyVeritron />
-      <Industries />
-      <Testimonials />
-      <Pricing />
-      <ContactCTA />
-    </>
-  );
-}
-
 export default function VeritronApp() {
-  const [bar, setBar] = useState(true);
-  const [dark, setDark] = useState(false);
-  const C = dark ? DARK : LIGHT;
+  // Initialize Lenis Smooth Scroll linked to GSAP ScrollTrigger
+  useLenisScroll();
 
-  /* Load Google Fonts once */
-  useEffect(() => {
-    const id = "veritron-fonts";
-    if (!document.getElementById(id)) {
-      const l = document.createElement("link");
-      l.id = id;
-      l.rel = "stylesheet";
-      l.href = "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap";
-      document.head.appendChild(l);
-    }
-  }, []);
+  const [selectedCaseStudy, setSelectedCaseStudy] = useState(null);
+  const [contactOpen, setContactOpen] = useState(false);
+  const [insightsOpen, setInsightsOpen] = useState(false);
+  const [approachOpen, setApproachOpen] = useState(false);
 
   return (
-    <ThemeCtx.Provider value={C}>
+    <div
+      style={{
+        fontFamily: BODY,
+        background: "#0c1524",
+        color: "#1e261a",
+        minHeight: "100vh",
+        position: "relative",
+      }}
+    >
+      {/* Three.js 3D WebGL Background Canvas */}
+      <ThreeCanvas />
+
+      {/* Luxury Preloader */}
       <Preloader />
-      <div style={{ fontFamily: BODY, background: C.bg, color: C.ink, overflowX: "clip", transition: "background .4s ease, color .4s ease" }}>
-        {/* Global keyframes & utility classes */}
-        <style>{`
-          @keyframes vpulse{0%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}70%{box-shadow:0 0 0 9px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
-          @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-          .mq{display:flex;gap:56px;width:max-content;animation:marquee 26s linear infinite}
-          .lift{transition:transform .2s ease, box-shadow .2s ease}
-          .lift:hover{transform:translateY(-5px);box-shadow:0 20px 44px -22px rgba(30,60,50,.30)}
-          @media (prefers-reduced-motion: reduce){.mq{animation:none}}
-          a{text-decoration:none}
-          @media(max-width:639px){.mq{gap:32px;animation-duration:18s}}
-        `}</style>
+      <ScrollToHash />
 
-        {bar && <AnnouncementBar onDismiss={() => setBar(false)} />}
-        <Header dark={dark} setDark={setDark} />
-        <ScrollToHash />
+      {/* Fixed Header & Fullscreen Menu */}
+      <Header
+        onOpenContact={() => setContactOpen(true)}
+        onOpenApproach={() => setApproachOpen(true)}
+      />
 
+      <div style={{ position: "relative", zIndex: 10 }}>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/"
+            element={
+              <main>
+                {/* 1. GSAP ScrollTrigger Pinned 3D Hero Sequence */}
+                <ContourHeroPinned
+                  onSelectCaseStudy={(id) => setSelectedCaseStudy(id)}
+                  onOpenApproach={() => setApproachOpen(true)}
+                />
+
+                {/* 2. Partner Logo Marquee */}
+                <ContourLogoMarquee />
+
+                {/* 3. Centered Editorial Testimonial */}
+                <ContourTestimonial />
+
+                {/* 4. Asymmetric Media + Text Insights */}
+                <ContourMediaText onOpenInsights={() => setInsightsOpen(true)} />
+
+                {/* 5. GSAP ScrollTrigger 3D Horizontal Parallax Case Studies */}
+                <ContourCaseStudies3D
+                  onSelectCaseStudy={(id) => setSelectedCaseStudy(id)}
+                />
+
+                {/* 6. Core Capabilities & Solutions */}
+                <ContourSolutions onOpenContact={() => setContactOpen(true)} />
+
+                {/* 7. Rounded Container Pre-Footer & Footer */}
+                <ContourFooter
+                  onOpenContact={() => setContactOpen(true)}
+                  onOpenApproach={() => setApproachOpen(true)}
+                />
+              </main>
+            }
+          />
+
+          {/* Detailed Service Deep-Link Route */}
           <Route path="/services/:slug" element={<ServicePage />} />
         </Routes>
-
-        <Footer />
-        <WhatsAppButton />
       </div>
-    </ThemeCtx.Provider>
+
+      {/* Floating WhatsApp Contact Widget */}
+      <WhatsAppButton />
+
+      {/* Interactive Drawers & Modals */}
+      <CaseStudyModal
+        caseStudyId={selectedCaseStudy}
+        onClose={() => setSelectedCaseStudy(null)}
+        onOpenContact={() => setContactOpen(true)}
+      />
+
+      <ContactModal
+        isOpen={contactOpen}
+        onClose={() => setContactOpen(false)}
+      />
+
+      <InsightsModal
+        isOpen={insightsOpen}
+        onClose={() => setInsightsOpen(false)}
+      />
+
+      <ApproachModal
+        isOpen={approachOpen}
+        onClose={() => setApproachOpen(false)}
+        onOpenContact={() => setContactOpen(true)}
+      />
+    </div>
   );
 }

@@ -1,2 +1,2 @@
-export const DISPLAY = "'Fraunces', Georgia, serif";
-export const BODY = "'Inter', system-ui, sans-serif";
+export const DISPLAY = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif";
+export const BODY = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif";

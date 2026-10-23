@@ -1,50 +1,36 @@
 import React, { useState, useEffect } from "react";
-import Logo from "./Logo";
 import { DISPLAY } from "../../constants/typography";
 
 export default function Preloader({ onComplete }) {
   const [progress, setProgress] = useState(0);
-  const [fadeOut, setFadeOut] = useState(false);
+  const [isExpanding, setIsExpanding] = useState(false);
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    // Fast, crisp progress animation (~1.0s)
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          return 100;
-        }
-        const diff = 100 - prev;
-        const step = Math.max(3, Math.ceil(diff * 0.22));
-        return Math.min(100, prev + step);
-      });
-    }, 25);
+    const startTime = performance.now();
+    const duration = 1400; // 1.4s smooth load
 
-    return () => clearInterval(interval);
-  }, []);
+    const frame = (now) => {
+      const elapsed = now - startTime;
+      const p = Math.min(100, Math.round((elapsed / duration) * 100));
+      setProgress(p);
 
-  useEffect(() => {
-    if (progress === 100) {
-      // Signal immediately that preloader is complete so entrance animations start right as fadeOut begins!
-      window.__VERITRON_LOADED = true;
-      window.dispatchEvent(new Event("veritron:loaded"));
+      if (p < 100) {
+        requestAnimationFrame(frame);
+      } else {
+        window.__VERITRON_LOADED = true;
+        window.dispatchEvent(new Event("veritron:loaded"));
+        setTimeout(() => setIsExpanding(true), 150);
+        setTimeout(() => {
+          setHidden(true);
+          if (onComplete) onComplete();
+        }, 850);
+      }
+    };
 
-      const timer = setTimeout(() => {
-        setFadeOut(true);
-      }, 100);
-
-      const hideTimer = setTimeout(() => {
-        setHidden(true);
-        if (onComplete) onComplete();
-      }, 500);
-
-      return () => {
-        clearTimeout(timer);
-        clearTimeout(hideTimer);
-      };
-    }
-  }, [progress, onComplete]);
+    const animId = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(animId);
+  }, [onComplete]);
 
   if (hidden) return null;
 
@@ -54,114 +40,150 @@ export default function Preloader({ onComplete }) {
         position: "fixed",
         inset: 0,
         zIndex: 999999,
-        background: "#ffffff",
+        background: "#0c1524",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        opacity: fadeOut ? 0 : 1,
-        visibility: fadeOut ? "hidden" : "visible",
-        transition: "opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s linear",
-        pointerEvents: fadeOut ? "none" : "all",
+        opacity: isExpanding ? 0 : 1,
+        transform: isExpanding ? "scale(1.08)" : "scale(1)",
+        filter: isExpanding ? "blur(8px)" : "none",
+        visibility: hidden ? "hidden" : "visible",
+        transition: "opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), filter 0.75s ease",
+        pointerEvents: isExpanding ? "none" : "all",
+        overflow: "hidden",
       }}
     >
+      {/* Background Animated SVG Contour Trace Lines (Matching Contour intro) */}
+      <svg
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          pointerEvents: "none",
+          opacity: 0.35,
+        }}
+        viewBox="0 0 1440 900"
+        fill="none"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        <path
+          d="M -100 450 C 200 450 350 200 720 200 C 1090 200 1200 650 1540 650"
+          stroke="#38bdf8"
+          strokeWidth="1.5"
+          strokeDasharray="2000"
+          strokeDashoffset={2000 - (progress / 100) * 2000}
+          style={{ transition: "stroke-dashoffset 0.1s linear" }}
+        />
+        <path
+          d="M 1540 300 C 1200 300 1000 700 720 700 C 440 700 300 250 -100 250"
+          stroke="rgba(255, 255, 255, 0.4)"
+          strokeWidth="1.2"
+          strokeDasharray="2200"
+          strokeDashoffset={2200 - (progress / 100) * 2200}
+          style={{ transition: "stroke-dashoffset 0.1s linear" }}
+        />
+        <rect
+          x="420"
+          y="280"
+          width="600"
+          height="340"
+          rx="40"
+          stroke="rgba(255, 255, 255, 0.25)"
+          strokeWidth="1.5"
+          strokeDasharray="1880"
+          strokeDashoffset={1880 - (progress / 100) * 1880}
+          style={{ transition: "stroke-dashoffset 0.1s linear" }}
+        />
+      </svg>
+
       <div
         style={{
+          position: "relative",
+          zIndex: 10,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 16,
-          animation: "preloaderPulse 1.8s ease-in-out infinite alternate",
+          gap: 20,
+          textAlign: "center",
         }}
       >
-        {/* Veritron Logo */}
-        <div style={{ filter: "drop-shadow(0 10px 24px rgba(37, 99, 235, 0.2))" }}>
-          <Logo badge="#2563eb" stroke="#ffffff" spark="#00f0ff" size={68} />
-        </div>
-
-        {/* Brand Text */}
-        <div style={{ textAlign: "center" }}>
+        {/* Signature Brand Wordmark */}
+        <div style={{ position: "relative" }}>
           <h1
             style={{
               fontFamily: DISPLAY,
               fontWeight: 700,
-              fontSize: "1.75rem",
-              color: "#0f172a",
-              letterSpacing: "-0.02em",
+              fontSize: "clamp(3.2rem, 8vw, 5.5rem)",
+              color: "#ffffff",
+              letterSpacing: "-0.04em",
               margin: 0,
-              lineHeight: 1.2,
+              lineHeight: 1,
             }}
           >
-            Veritron
+            Veritron<span style={{ color: "#38bdf8" }}>.</span>
           </h1>
           <span
             style={{
-              fontSize: ".75rem",
-              fontWeight: 600,
-              letterSpacing: ".22em",
+              fontSize: "clamp(0.72rem, 1vw, 0.85rem)",
+              letterSpacing: "0.32em",
               textTransform: "uppercase",
-              color: "#00a8ff",
+              color: "rgba(255, 255, 255, 0.6)",
               display: "block",
-              marginTop: 4,
+              marginTop: 14,
+              fontWeight: 600,
             }}
           >
-            IT Solutions
+            Architectural IT · Strategic Delivery
           </span>
         </div>
 
-        {/* Loading Progress Section */}
+        {/* Minimal Progress Bar with Percentage */}
         <div
           style={{
-            marginTop: 20,
+            width: 220,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             gap: 10,
+            marginTop: 16,
           }}
         >
-          {/* Progress Bar Container */}
           <div
             style={{
-              width: 180,
-              height: 4,
-              borderRadius: 4,
-              background: "#e2e8f0",
+              width: "100%",
+              height: 2,
+              background: "rgba(255, 255, 255, 0.12)",
+              borderRadius: 2,
               overflow: "hidden",
               position: "relative",
             }}
           >
             <div
               style={{
-                height: "100%",
+                position: "absolute",
+                left: 0,
+                top: 0,
+                bottom: 0,
                 width: `${progress}%`,
-                background: "linear-gradient(90deg, #2563eb, #00f0ff)",
-                borderRadius: 4,
-                transition: "width 0.05s ease-out",
-                boxShadow: "0 0 12px rgba(0, 240, 255, 0.6)",
+                background: "linear-gradient(90deg, #38bdf8, #ffffff)",
+                transition: "width 0.05s linear",
               }}
             />
           </div>
-
-          {/* Loading Label */}
           <span
             style={{
-              fontSize: ".82rem",
-              fontWeight: 500,
-              color: "#64748b",
-              letterSpacing: ".04em",
+              fontFamily: "monospace",
+              fontSize: "0.75rem",
+              color: "rgba(255, 255, 255, 0.45)",
+              letterSpacing: "0.1em",
             }}
           >
-            Loading... {progress}%
+            {progress}%
           </span>
         </div>
       </div>
-
-      <style>{`
-        @keyframes preloaderPulse {
-          0% { transform: scale(0.97); }
-          100% { transform: scale(1.03); }
-        }
-      `}</style>
     </div>
   );
 }

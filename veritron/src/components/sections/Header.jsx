@@ -1,160 +1,407 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { ChevronRight, ArrowRight, Menu, X, Moon, Sun } from "lucide-react";
-import { useTheme } from "../../context/ThemeContext";
-import useScreen from "../../hooks/useScreen";
-import { MEGA } from "../../constants/data";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { DISPLAY } from "../../constants/typography";
-import Logo from "../ui/Logo";
+import { ArrowRight, X } from "lucide-react";
 
-export default function Header({ dark, setDark }) {
-  const C = useTheme();
-  const { isMobile, isMd, w } = useScreen();
-  const [mega, setMega] = useState(false);
-  const [mobile, setMobile] = useState(false);
-  const navigate = useNavigate();
+export default function Header({ onOpenContact, onOpenApproach }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const megaTimeout = useRef(null);
 
-  // Close mobile nav on resize to desktop
   useEffect(() => {
-    if (isMd && mobile) setMobile(false);
-  }, [isMd]);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  // Close mega menu on route change
   useEffect(() => {
-    setMega(false);
-    setMobile(false);
-  }, [location.pathname]);
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
-  const px = isMobile ? 16 : 24;
-  const btnP = { display: "inline-flex", alignItems: "center", gap: 8, background: C.pine, color: C.bg, padding: isMobile ? ".75rem 1.2rem" : ".85rem 1.5rem", borderRadius: 999, fontWeight: 600, textDecoration: "none", cursor: "pointer", border: "none", fontSize: isMobile ? ".88rem" : ".97rem" };
+  const navItems = [
+    { num: "01", label: "Home", href: "#top" },
+    { num: "02", label: "Work & Case Studies", href: "#work" },
+    { num: "03", label: "Our Approach", href: "#approach", action: onOpenApproach },
+    { num: "04", label: "Solutions & Services", href: "#solutions" },
+    { num: "05", label: "Insights & Perspectives", href: "#insights" },
+    { num: "06", label: "Contact Us", href: "#contact", action: onOpenContact },
+  ];
 
-  const handleMegaEnter = () => {
-    if (megaTimeout.current) clearTimeout(megaTimeout.current);
-    setMega(true);
-  };
-  const handleMegaLeave = () => {
-    megaTimeout.current = setTimeout(() => setMega(false), 150);
-  };
-
-  const handleServiceClick = (slug, e) => {
-    e.preventDefault();
-    setMega(false);
-    navigate(`/services/${slug}`);
+  const handleNavClick = (item, e) => {
+    setMenuOpen(false);
+    if (item.action) {
+      e.preventDefault();
+      item.action();
+      return;
+    }
+    if (item.href.startsWith("#")) {
+      const el = document.querySelector(item.href);
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
   };
 
   return (
-    <header style={{ position: "sticky", top: 0, zIndex: 60, background: C.isDark ? "rgba(15, 23, 42, 0.92)" : "rgba(248, 250, 252, 0.88)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.line}`, transition: "background .4s ease" }}>
-      <div style={{ maxWidth: 1152, margin: "0 auto", padding: `0 ${px}px`, display: "flex", alignItems: "center", justifyContent: "space-between", height: isMobile ? 60 : 72 }}>
-        <Link to="/" style={{ display: "flex", alignItems: "center", gap: isMobile ? 8 : 12, textDecoration: "none" }}>
-          <Logo size={isMobile ? 32 : 40} />
-          <div style={{ lineHeight: 1 }}>
-            <div style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: isMobile ? "1.1rem" : "1.35rem", color: C.ink }}>Veritron</div>
-            <div style={{ fontSize: ".52rem", letterSpacing: ".3em", color: C.pine, fontWeight: 600, marginTop: 2 }}>IT SOLUTIONS</div>
-          </div>
-        </Link>
-        {/* Desktop nav */}
-        {isMd && (
-          <nav style={{ display: "flex", alignItems: "center", gap: w < 900 ? 16 : 28, fontSize: ".95rem", fontWeight: 500 }}>
-            <div onMouseEnter={handleMegaEnter} onMouseLeave={handleMegaLeave} style={{ position: "relative" }}>
-              <button style={{ background: "none", border: "none", font: "inherit", color: C.ink, cursor: "pointer", display: "flex", alignItems: "center", gap: 4, padding: "8px 0" }}>Services <ChevronRight size={15} style={{ transform: mega ? "rotate(90deg)" : "none", transition: ".2s" }} /></button>
-              {mega && (
-                <div style={{ position: "absolute", top: 44, left: -20, width: Math.min(640, w - 40), background: C.surface, border: `1px solid ${C.line}`, borderRadius: 18, boxShadow: "0 30px 70px -30px rgba(30,60,50,.4)", padding: 18, zIndex: 100 }}>
-                  <div style={{ display: "grid", gridTemplateColumns: w < 900 ? "1fr" : "1fr 1fr", gap: 4 }}>
-                    {MEGA.map((m) => {
-                      const isActive = location.pathname === `/services/${m.slug}`;
-                      return (
-                        <a
-                          key={m.t}
-                          href={`/services/${m.slug}`}
-                          onClick={(e) => handleServiceClick(m.slug, e)}
-                          style={{
-                            display: "flex",
-                            alignItems: "flex-start",
-                            gap: 12,
-                            padding: 12,
-                            borderRadius: 12,
-                            color: C.ink,
-                            textDecoration: "none",
-                            background: isActive ? C.surfaceAlt : "transparent",
-                            cursor: "pointer",
-                          }}
-                          onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.background = C.surfaceAlt; }}
-                          onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = "transparent"; }}
-                        >
-                          <span style={{ width: 38, height: 38, borderRadius: 10, background: C.surfaceAlt, display: "grid", placeItems: "center", flexShrink: 0 }}><m.icon size={18} color={C.pine} /></span>
-                          <span><b style={{ display: "block", fontSize: ".92rem" }}>{m.t}</b><small style={{ color: C.muted, fontSize: ".8rem" }}>{m.d}</small></span>
-                        </a>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
-            {["Industries", "Why Veritron", "Pricing"].map((x) => <Link key={x} to={"/#" + x.split(" ")[0].toLowerCase()} className="nav-link" style={{ color: C.ink, opacity: .82 }}>{x}</Link>)}
-          </nav>
-        )}
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          {/* Dark mode toggle */}
-          <button
-            onClick={() => setDark((d) => !d)}
-            aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+    <>
+      <header
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 900,
+          padding: "clamp(16px, 2.5vw, 28px) clamp(20px, 4vw, 56px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          transition: "background 0.35s ease, backdrop-filter 0.35s ease, padding 0.3s ease",
+          background: scrolled
+            ? "rgba(12, 21, 36, 0.88)"
+            : "linear-gradient(to bottom, rgba(12, 21, 36, 0.75), rgba(12, 21, 36, 0))",
+          backdropFilter: scrolled ? "blur(14px)" : "none",
+        }}
+      >
+        {/* Brand Logo - Contour typography */}
+        <a
+          href="#top"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          style={{
+            textDecoration: "none",
+            display: "flex",
+            alignItems: "baseline",
+            gap: 8,
+          }}
+        >
+          <span
             style={{
-              background: dark ? "rgba(255,255,255,.1)" : "rgba(0,0,0,.06)",
-              border: "none",
-              cursor: "pointer",
-              padding: 8,
-              borderRadius: 12,
-              display: "grid",
-              placeItems: "center",
-              color: C.ink,
-              transition: "background .3s ease, transform .25s cubic-bezier(0.16, 1, 0.3, 1)",
+              fontFamily: DISPLAY,
+              fontWeight: 700,
+              fontSize: "clamp(1.5rem, 2.5vw, 2.1rem)",
+              color: "#ffffff",
+              letterSpacing: "-0.035em",
+              lineHeight: 1,
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = "rotate(25deg) scale(1.12)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = "none"; }}
           >
-            {dark ? <Sun size={20} /> : <Moon size={20} />}
+            Veritron
+          </span>
+          <span
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              background: "#38bdf8",
+              display: "inline-block",
+            }}
+          />
+        </a>
+
+        {/* Right Actions: Contact pill & Hamburger */}
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <button
+            onClick={onOpenContact}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "9px 20px",
+              borderRadius: 9999,
+              background: "rgba(255, 255, 255, 0.1)",
+              border: "1px solid rgba(255, 255, 255, 0.3)",
+              color: "#ffffff",
+              fontSize: "0.86rem",
+              fontWeight: 500,
+              fontFamily: DISPLAY,
+              cursor: "pointer",
+              backdropFilter: "blur(8px)",
+              transition: "background 0.25s, border-color 0.25s, transform 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(255, 255, 255, 0.22)";
+              e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.6)";
+              e.currentTarget.style.transform = "translateY(-1px)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255, 255, 255, 0.1)";
+              e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.3)";
+              e.currentTarget.style.transform = "translateY(0)";
+            }}
+          >
+            <span>Talk with our team</span>
           </button>
-          {w >= 640 && <Link to="/#contact" className="btn-interactive" style={btnP}>Book a free IT check</Link>}
-          {!isMd && (
-            <button onClick={() => setMobile(!mobile)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, color: C.ink }}>
-              {mobile ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          )}
-        </div>
-      </div>
-      {/* Mobile nav drawer */}
-      {mobile && !isMd && (
-        <div style={{ borderTop: `1px solid ${C.line}`, padding: "12px 16px 20px", background: C.surface }}>
-          {MEGA.map((m) => (
-            <a
-              key={m.slug}
-              href={`/services/${m.slug}`}
-              onClick={(e) => { e.preventDefault(); setMobile(false); navigate(`/services/${m.slug}`); }}
+
+          {/* Minimal 3-Line Hamburger Button */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle navigation menu"
+            style={{
+              width: 44,
+              height: 44,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 5,
+              background: "rgba(255, 255, 255, 0.08)",
+              border: "1px solid rgba(255, 255, 255, 0.25)",
+              borderRadius: 9999,
+              cursor: "pointer",
+              padding: 0,
+              transition: "background 0.25s, border-color 0.25s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(255, 255, 255, 0.2)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
+            }}
+          >
+            <span
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                padding: "12px 0",
-                color: location.pathname === `/services/${m.slug}` ? C.pine : C.ink,
-                fontWeight: location.pathname === `/services/${m.slug}` ? 700 : 500,
-                fontSize: "1.05rem",
-                borderBottom: `1px solid ${C.line}`,
-                textDecoration: "none",
-                cursor: "pointer",
+                width: 20,
+                height: 2,
+                background: "#ffffff",
+                borderRadius: 2,
+                transition: "transform 0.3s, opacity 0.3s",
+                transform: menuOpen ? "rotate(45deg) translate(5px, 5px)" : "none",
+              }}
+            />
+            <span
+              style={{
+                width: 20,
+                height: 2,
+                background: "#ffffff",
+                borderRadius: 2,
+                transition: "opacity 0.2s",
+                opacity: menuOpen ? 0 : 1,
+              }}
+            />
+            <span
+              style={{
+                width: 20,
+                height: 2,
+                background: "#ffffff",
+                borderRadius: 2,
+                transition: "transform 0.3s, opacity 0.3s",
+                transform: menuOpen ? "rotate(-45deg) translate(5px, -5px)" : "none",
+              }}
+            />
+          </button>
+        </div>
+      </header>
+
+      {/* Fullscreen Overlay Menu - Exactly matching Contour Interiors */}
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 850,
+          background: "#0c1524",
+          color: "#ffffff",
+          display: "flex",
+          opacity: menuOpen ? 1 : 0,
+          visibility: menuOpen ? "visible" : "hidden",
+          transition: "opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s linear",
+          overflowY: "auto",
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            maxWidth: 1400,
+            margin: "0 auto",
+            padding: "clamp(100px, 14vh, 140px) clamp(24px, 6vw, 80px) 60px",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gap: "clamp(40px, 6vw, 100px)",
+            alignItems: "center",
+          }}
+        >
+          {/* Left Column: Big Navigation Links */}
+          <div>
+            <span
+              style={{
+                fontSize: "0.75rem",
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                color: "rgba(255, 255, 255, 0.45)",
+                fontWeight: 600,
+                display: "block",
+                marginBottom: 28,
               }}
             >
-              <m.icon size={18} color={C.pine} /> {m.t}
-            </a>
-          ))}
-          <Link to="/#industries" onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 0", color: C.ink, fontWeight: 500, fontSize: "1.05rem", borderBottom: `1px solid ${C.line}` }}>Industries</Link>
-          <Link to="/#why" onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 0", color: C.ink, fontWeight: 500, fontSize: "1.05rem", borderBottom: `1px solid ${C.line}` }}>Why Veritron</Link>
-          <Link to="/#pricing" onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 0", color: C.ink, fontWeight: 500, fontSize: "1.05rem", borderBottom: `1px solid ${C.line}` }}>Pricing</Link>
-          <Link to="/#contact" onClick={() => setMobile(false)} style={{ display: "block", padding: "12px 0", color: C.ink, fontWeight: 500, fontSize: "1.05rem", borderBottom: `1px solid ${C.line}` }}>Contact</Link>
-          <Link to="/#contact" style={{ ...btnP, width: "100%", justifyContent: "center", marginTop: 16 }}>Book a free IT check <ArrowRight size={16} /></Link>
+              Navigation
+            </span>
+            <nav style={{ display: "flex", flexDirection: "column", gap: "clamp(12px, 2.2vh, 22px)" }}>
+              {navItems.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(item, e)}
+                  style={{
+                    display: "flex",
+                    alignItems: "baseline",
+                    gap: 20,
+                    textDecoration: "none",
+                    color: "#ffffff",
+                    fontFamily: DISPLAY,
+                    fontSize: "clamp(1.8rem, 3.8vw, 3.2rem)",
+                    fontWeight: 600,
+                    letterSpacing: "-0.03em",
+                    transition: "transform 0.25s ease, color 0.25s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateX(12px)";
+                    e.currentTarget.style.color = "#38bdf8";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateX(0)";
+                    e.currentTarget.style.color = "#ffffff";
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "clamp(0.85rem, 1.2vw, 1.1rem)",
+                      color: "rgba(255, 255, 255, 0.35)",
+                      fontFamily: "monospace",
+                      fontWeight: 400,
+                    }}
+                  >
+                    {item.num}
+                  </span>
+                  <span>{item.label}</span>
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          {/* Right Column: Featured Project & Melbourne Office */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 32,
+              background: "rgba(255, 255, 255, 0.03)",
+              border: "1px solid rgba(255, 255, 255, 0.12)",
+              borderRadius: 28,
+              padding: "clamp(24px, 4vw, 36px)",
+            }}
+          >
+            <div>
+              <span
+                style={{
+                  fontSize: "0.72rem",
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "#38bdf8",
+                  fontWeight: 600,
+                  display: "block",
+                  marginBottom: 12,
+                }}
+              >
+                Featured Case Study
+              </span>
+              <h3
+                style={{
+                  fontFamily: DISPLAY,
+                  fontSize: "1.5rem",
+                  fontWeight: 700,
+                  letterSpacing: "-0.02em",
+                  margin: "0 0 8px",
+                  color: "#ffffff",
+                }}
+              >
+                Summit Logistics Australia
+              </h3>
+              <p
+                style={{
+                  fontSize: "0.92rem",
+                  color: "rgba(255, 255, 255, 0.7)",
+                  lineHeight: 1.5,
+                  margin: "0 0 16px",
+                }}
+              >
+                Zero-downtime national Microsoft 365 cloud cutover & redundant SD-WAN architecture.
+              </p>
+              <div
+                style={{
+                  height: 180,
+                  borderRadius: 18,
+                  overflow: "hidden",
+                  position: "relative",
+                  marginBottom: 16,
+                }}
+              >
+                <img
+                  src="/images/contour/hero-workplace.jpg"
+                  alt="Summit Logistics Melbourne"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+              <a
+                href="#work"
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  color: "#ffffff",
+                  fontSize: "0.88rem",
+                  fontWeight: 600,
+                  textDecoration: "none",
+                }}
+              >
+                <span>Read the case study</span>
+                <ArrowRight size={15} color="#38bdf8" />
+              </a>
+            </div>
+
+            {/* Direct Contact Info */}
+            <div
+              style={{
+                borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+                paddingTop: 24,
+                display: "flex",
+                flexDirection: "column",
+                gap: 8,
+                fontSize: "0.9rem",
+                color: "rgba(255, 255, 255, 0.75)",
+              }}
+            >
+              <div>
+                <b style={{ color: "#ffffff", display: "block" }}>Melbourne Office</b>
+                Melbourne & Surrounds, Victoria, AU
+              </div>
+              <div>
+                <a href="tel:61450513399" style={{ color: "#38bdf8", textDecoration: "none" }}>
+                  +61 450 513 399
+                </a>
+                <span style={{ margin: "0 8px" }}>·</span>
+                <a href="mailto:info@veritron.com.au" style={{ color: "rgba(255, 255, 255, 0.85)", textDecoration: "none" }}>
+                  info@veritron.com.au
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
-    </header>
+      </div>
+    </>
   );
 }

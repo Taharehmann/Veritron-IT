@@ -441,466 +441,466 @@ export default function ContactCTA() {
         C={C}
         isDark={isDark}
       />
-    <section id="contact" style={{ padding: isMobile ? "60px 0" : "100px 0" }}>
-      <div style={{ maxWidth: 1152, margin: "0 auto", padding: `0 ${px}px` }}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: isMd ? "1fr 1fr" : "1fr",
-            gap: isMobile ? 32 : 48,
-            alignItems: "start",
-          }}
-        >
-          {/* ─── Left Column: Info ─── */}
-          <Reveal>
-            <div style={{ position: "sticky", top: 100 }}>
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: isDark ? "rgba(0, 240, 255, 0.08)" : "rgba(37, 99, 235, 0.07)",
-                  border: `1px solid ${isDark ? "rgba(0, 240, 255, 0.25)" : "rgba(37, 99, 235, 0.18)"}`,
-                  borderRadius: 999,
-                  padding: "6px 16px",
-                  marginBottom: 20,
-                }}
-              >
-                <Sparkles size={14} color={C.pine} />
-                <span
+      <section id="contact" style={{ padding: isMobile ? "60px 0" : "100px 0" }}>
+        <div style={{ maxWidth: 1152, margin: "0 auto", padding: `0 ${px}px` }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: isMd ? "1fr 1fr" : "1fr",
+              gap: isMobile ? 32 : 48,
+              alignItems: "start",
+            }}
+          >
+            {/* ─── Left Column: Info ─── */}
+            <Reveal>
+              <div style={{ position: "sticky", top: 100 }}>
+                <div
                   style={{
-                    fontSize: ".72rem",
-                    fontWeight: 700,
-                    letterSpacing: ".16em",
-                    textTransform: "uppercase",
-                    color: C.pine,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    background: isDark ? "rgba(0, 240, 255, 0.08)" : "rgba(37, 99, 235, 0.07)",
+                    border: `1px solid ${isDark ? "rgba(0, 240, 255, 0.25)" : "rgba(37, 99, 235, 0.18)"}`,
+                    borderRadius: 999,
+                    padding: "6px 16px",
+                    marginBottom: 20,
                   }}
                 >
-                  Free IT Health Check
-                </span>
-              </div>
-
-              <h2
-                style={{
-                  fontFamily: DISPLAY,
-                  fontWeight: 700,
-                  fontSize: "clamp(1.8rem, 4vw, 3rem)",
-                  lineHeight: 1.1,
-                  color: C.ink,
-                  marginBottom: 16,
-                }}
-              >
-                Let's look after{" "}
-                <span style={{ color: C.pine }}>your systems.</span>
-              </h2>
-
-              <p
-                style={{
-                  color: C.muted,
-                  fontSize: isMobile ? ".98rem" : "1.1rem",
-                  lineHeight: 1.7,
-                  maxWidth: "46ch",
-                  marginBottom: 36,
-                }}
-              >
-                Fill in the form and our team will get back to you within a few hours with a tailored plan — no strings attached.
-              </p>
-
-              {/* Contact cards */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 32 }}>
-                {[
-                  {
-                    icon: Mail,
-                    label: "Email us",
-                    value: "info@veritron.com.au",
-                    href: "mailto:info@veritron.com.au",
-                  },
-                  {
-                    icon: Phone,
-                    label: "Call us",
-                    value: "+61 450 513 399",
-                    href: "tel:61450513399",
-                  },
-                ].map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 14,
-                      padding: "14px 18px",
-                      background: C.surface,
-                      border: `1px solid ${C.line}`,
-                      borderRadius: 16,
-                      textDecoration: "none",
-                      color: C.ink,
-                      transition: "all .25s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = C.pine;
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow = isDark
-                        ? "0 8px 25px -8px rgba(0,0,0,.4)"
-                        : "0 8px 25px -8px rgba(37,99,235,.15)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = C.line;
-                      e.currentTarget.style.transform = "none";
-                      e.currentTarget.style.boxShadow = "none";
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: 42,
-                        height: 42,
-                        borderRadius: 12,
-                        background: isDark ? "rgba(0, 240, 255, 0.1)" : "rgba(37, 99, 235, 0.08)",
-                        display: "grid",
-                        placeItems: "center",
-                        flexShrink: 0,
-                      }}
-                    >
-                      <item.icon size={20} color={C.pine} />
-                    </span>
-                    <div>
-                      <div style={{ fontSize: ".78rem", fontWeight: 600, color: C.muted, marginBottom: 2 }}>
-                        {item.label}
-                      </div>
-                      <div style={{ fontWeight: 600, fontSize: ".98rem" }}>{item.value}</div>
-                    </div>
-                  </a>
-                ))}
-              </div>
-
-              {/* Trust badges */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-                {["Free assessment", "No obligations", "Same-day response"].map((badge) => (
+                  <Sparkles size={14} color={C.pine} />
                   <span
-                    key={badge}
                     style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 6,
-                      padding: "6px 14px",
-                      borderRadius: 999,
-                      background: isDark ? "rgba(56, 189, 248, 0.08)" : "rgba(37, 99, 235, 0.06)",
-                      border: `1px solid ${isDark ? "rgba(56, 189, 248, 0.15)" : "rgba(37, 99, 235, 0.12)"}`,
-                      fontSize: ".78rem",
-                      fontWeight: 600,
+                      fontSize: ".72rem",
+                      fontWeight: 700,
+                      letterSpacing: ".16em",
+                      textTransform: "uppercase",
                       color: C.pine,
                     }}
                   >
-                    <CheckCircle2 size={13} /> {badge}
+                    Free IT Health Check
                   </span>
-                ))}
-              </div>
-            </div>
-          </Reveal>
+                </div>
 
-          {/* ─── Right Column: Form ─── */}
-          <Reveal delay={150}>
-            <div
-              style={{
-                background: C.surface,
-                border: `1px solid ${C.line}`,
-                borderRadius: isMobile ? 20 : 24,
-                padding: isMobile ? "28px 20px" : "36px 32px",
-                boxShadow: isDark
-                  ? "0 25px 60px -15px rgba(0, 0, 0, 0.5)"
-                  : "0 25px 60px -15px rgba(37, 99, 235, 0.12)",
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
-              {/* Subtle glow */}
+                <h2
+                  style={{
+                    fontFamily: DISPLAY,
+                    fontWeight: 700,
+                    fontSize: "clamp(1.8rem, 4vw, 3rem)",
+                    lineHeight: 1.1,
+                    color: C.ink,
+                    marginBottom: 16,
+                  }}
+                >
+                  Let's look after{" "}
+                  <span style={{ color: C.pine }}>your systems.</span>
+                </h2>
+
+                <p
+                  style={{
+                    color: C.muted,
+                    fontSize: isMobile ? ".98rem" : "1.1rem",
+                    lineHeight: 1.7,
+                    maxWidth: "46ch",
+                    marginBottom: 36,
+                  }}
+                >
+                  Fill in the form and our team will get back to you within a few hours with a tailored plan — no strings attached.
+                </p>
+
+                {/* Contact cards */}
+                <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 32 }}>
+                  {[
+                    {
+                      icon: Mail,
+                      label: "Email us",
+                      value: "info@veritron.com.au",
+                      href: "mailto:info@veritron.com.au",
+                    },
+                    {
+                      icon: Phone,
+                      label: "Call us",
+                      value: "+61 450 513 399",
+                      href: "tel:61450513399",
+                    },
+                  ].map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 14,
+                        padding: "14px 18px",
+                        background: C.surface,
+                        border: `1px solid ${C.line}`,
+                        borderRadius: 16,
+                        textDecoration: "none",
+                        color: C.ink,
+                        transition: "all .25s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = C.pine;
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                        e.currentTarget.style.boxShadow = isDark
+                          ? "0 8px 25px -8px rgba(0,0,0,.4)"
+                          : "0 8px 25px -8px rgba(37,99,235,.15)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor = C.line;
+                        e.currentTarget.style.transform = "none";
+                        e.currentTarget.style.boxShadow = "none";
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: 42,
+                          height: 42,
+                          borderRadius: 12,
+                          background: isDark ? "rgba(0, 240, 255, 0.1)" : "rgba(37, 99, 235, 0.08)",
+                          display: "grid",
+                          placeItems: "center",
+                          flexShrink: 0,
+                        }}
+                      >
+                        <item.icon size={20} color={C.pine} />
+                      </span>
+                      <div>
+                        <div style={{ fontSize: ".78rem", fontWeight: 600, color: C.muted, marginBottom: 2 }}>
+                          {item.label}
+                        </div>
+                        <div style={{ fontWeight: 600, fontSize: ".98rem" }}>{item.value}</div>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+
+                {/* Trust badges */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                  {["Free assessment", "No obligations", "Same-day response"].map((badge) => (
+                    <span
+                      key={badge}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 6,
+                        padding: "6px 14px",
+                        borderRadius: 999,
+                        background: isDark ? "rgba(56, 189, 248, 0.08)" : "rgba(37, 99, 235, 0.06)",
+                        border: `1px solid ${isDark ? "rgba(56, 189, 248, 0.15)" : "rgba(37, 99, 235, 0.12)"}`,
+                        fontSize: ".78rem",
+                        fontWeight: 600,
+                        color: C.pine,
+                      }}
+                    >
+                      <CheckCircle2 size={13} /> {badge}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+
+            {/* ─── Right Column: Form ─── */}
+            <Reveal delay={150}>
               <div
                 style={{
-                  position: "absolute",
-                  width: 300,
-                  height: 300,
-                  borderRadius: "50%",
-                  background: isDark ? "rgba(0, 240, 255, 0.06)" : "rgba(37, 99, 235, 0.04)",
-                  filter: "blur(80px)",
-                  top: -100,
-                  right: -80,
-                  pointerEvents: "none",
+                  background: C.surface,
+                  border: `1px solid ${C.line}`,
+                  borderRadius: isMobile ? 20 : 24,
+                  padding: isMobile ? "28px 20px" : "36px 32px",
+                  boxShadow: isDark
+                    ? "0 25px 60px -15px rgba(0, 0, 0, 0.5)"
+                    : "0 25px 60px -15px rgba(37, 99, 235, 0.12)",
+                  position: "relative",
+                  overflow: "hidden",
                 }}
-              />
+              >
+                {/* Subtle glow */}
+                <div
+                  style={{
+                    position: "absolute",
+                    width: 300,
+                    height: 300,
+                    borderRadius: "50%",
+                    background: isDark ? "rgba(0, 240, 255, 0.06)" : "rgba(37, 99, 235, 0.04)",
+                    filter: "blur(80px)",
+                    top: -100,
+                    right: -80,
+                    pointerEvents: "none",
+                  }}
+                />
 
-              {!submitted ? (
-                <form
-                  name="contact"
-                  method="POST"
-                  data-netlify="true"
-                  data-netlify-honeypot="bot-field"
-                  onSubmit={handleSubmit}
-                  style={{ position: "relative", zIndex: 2 }}
-                >
-                  <input type="hidden" name="form-name" value="contact" />
-                  <p hidden>
-                    <label>Don't fill this out: <input name="bot-field" /></label>
-                  </p>
-                  <h3
-                    style={{
-                      fontFamily: DISPLAY,
-                      fontWeight: 600,
-                      fontSize: isMobile ? "1.2rem" : "1.4rem",
-                      color: C.ink,
-                      marginBottom: 4,
-                    }}
+                {!submitted ? (
+                  <form
+                    name="contact"
+                    method="POST"
+                    data-netlify="true"
+                    data-netlify-honeypot="bot-field"
+                    onSubmit={handleSubmit}
+                    style={{ position: "relative", zIndex: 2 }}
                   >
-                    Book your free IT check
-                  </h3>
-                  <p
-                    style={{
-                      color: C.muted,
-                      fontSize: isMobile ? ".85rem" : ".92rem",
-                      marginBottom: isMobile ? 24 : 28,
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    Tell us about your business and we'll prepare a tailored assessment.
-                  </p>
+                    <input type="hidden" name="form-name" value="contact" />
+                    <p hidden>
+                      <label>Don't fill this out: <input name="bot-field" /></label>
+                    </p>
+                    <h3
+                      style={{
+                        fontFamily: DISPLAY,
+                        fontWeight: 600,
+                        fontSize: isMobile ? "1.2rem" : "1.4rem",
+                        color: C.ink,
+                        marginBottom: 4,
+                      }}
+                    >
+                      Book your free IT check
+                    </h3>
+                    <p
+                      style={{
+                        color: C.muted,
+                        fontSize: isMobile ? ".85rem" : ".92rem",
+                        marginBottom: isMobile ? 24 : 28,
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      Tell us about your business and we'll prepare a tailored assessment.
+                    </p>
 
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-                      gap: isMobile ? 16 : 18,
-                      marginBottom: isMobile ? 16 : 18,
-                    }}
-                  >
-                    <FormInput
-                      icon={User}
-                      label="Full Name"
-                      name="name"
-                      required
-                      value={form.name}
-                      onChange={handleChange}
-                      placeholder="John Smith"
-                      {...formProps}
-                    />
-                    <FormInput
-                      icon={Mail}
-                      label="Email Address"
-                      name="email"
-                      type="email"
-                      required
-                      value={form.email}
-                      onChange={handleChange}
-                      placeholder="john@company.com.au"
-                      {...formProps}
-                    />
-                  </div>
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                        gap: isMobile ? 16 : 18,
+                        marginBottom: isMobile ? 16 : 18,
+                      }}
+                    >
+                      <FormInput
+                        icon={User}
+                        label="Full Name"
+                        name="name"
+                        required
+                        value={form.name}
+                        onChange={handleChange}
+                        placeholder="Nancy Williams"
+                        {...formProps}
+                      />
+                      <FormInput
+                        icon={Mail}
+                        label="Email Address"
+                        name="email"
+                        type="email"
+                        required
+                        value={form.email}
+                        onChange={handleChange}
+                        placeholder="nancy@company.com.au"
+                        {...formProps}
+                      />
+                    </div>
 
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-                      gap: isMobile ? 16 : 18,
-                      marginBottom: isMobile ? 16 : 18,
-                    }}
-                  >
-                    <FormInput
-                      icon={Phone}
-                      label="Phone Number"
-                      name="phone"
-                      type="tel"
-                      value={form.phone}
-                      onChange={handleChange}
-                      placeholder="+61 400 000 000"
-                      {...formProps}
-                    />
-                    <FormInput
-                      icon={Building2}
-                      label="Company Name"
-                      name="company"
-                      value={form.company}
-                      onChange={handleChange}
-                      placeholder="Your Company Pty Ltd"
-                      {...formProps}
-                    />
-                  </div>
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                        gap: isMobile ? 16 : 18,
+                        marginBottom: isMobile ? 16 : 18,
+                      }}
+                    >
+                      <FormInput
+                        icon={Phone}
+                        label="Phone Number"
+                        name="phone"
+                        type="tel"
+                        value={form.phone}
+                        onChange={handleChange}
+                        placeholder="+61 400 000 000"
+                        {...formProps}
+                      />
+                      <FormInput
+                        icon={Building2}
+                        label="Company Name"
+                        name="company"
+                        value={form.company}
+                        onChange={handleChange}
+                        placeholder="Your Company Pty Ltd"
+                        {...formProps}
+                      />
+                    </div>
 
-                  <div style={{ marginBottom: isMobile ? 16 : 18 }}>
-                    <FormSelect
-                      icon={Briefcase}
-                      label="Service Interested In"
-                      name="service"
-                      required
-                      value={form.service}
-                      onChange={handleChange}
-                      options={SERVICES}
-                      placeholder="Select a service..."
-                      {...formProps}
-                    />
-                  </div>
+                    <div style={{ marginBottom: isMobile ? 16 : 18 }}>
+                      <FormSelect
+                        icon={Briefcase}
+                        label="Service Interested In"
+                        name="service"
+                        required
+                        value={form.service}
+                        onChange={handleChange}
+                        options={SERVICES}
+                        placeholder="Select a service..."
+                        {...formProps}
+                      />
+                    </div>
 
-                  <div style={{ marginBottom: isMobile ? 24 : 28 }}>
-                    <FormTextarea
-                      icon={MessageSquare}
-                      label="Tell us about your IT setup (optional)"
-                      name="message"
-                      value={form.message}
-                      onChange={handleChange}
-                      placeholder="e.g. We have 15 staff, use Microsoft 365, and need better backup and network monitoring..."
-                      {...formProps}
-                    />
-                  </div>
+                    <div style={{ marginBottom: isMobile ? 24 : 28 }}>
+                      <FormTextarea
+                        icon={MessageSquare}
+                        label="Tell us about your IT setup (optional)"
+                        name="message"
+                        value={form.message}
+                        onChange={handleChange}
+                        placeholder="e.g. We have 15 staff, use Microsoft 365, and need better backup and network monitoring..."
+                        {...formProps}
+                      />
+                    </div>
 
-                  <button
-                    type="submit"
-                    disabled={sending}
-                    className="btn-interactive"
-                    style={{
-                      width: "100%",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: 10,
-                      background: sending
-                        ? C.muted
-                        : isDark
-                          ? "linear-gradient(135deg, #0284c7 0%, #2563eb 100%)"
-                          : "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
-                      color: "#ffffff",
-                      padding: isMobile ? "15px 24px" : "17px 28px",
-                      borderRadius: 16,
-                      fontWeight: 700,
-                      fontSize: isMobile ? "1rem" : "1.08rem",
-                      border: isDark ? "1px solid rgba(0, 240, 255, 0.3)" : "none",
-                      cursor: sending ? "not-allowed" : "pointer",
-                      boxShadow: isDark
-                        ? "0 8px 30px -6px rgba(2, 132, 199, 0.45)"
-                        : "0 8px 30px -6px rgba(37, 99, 235, 0.4)",
-                      transition: "all .25s ease",
-                      opacity: sending ? 0.7 : 1,
-                      fontFamily: "inherit",
-                    }}
-                  >
-                    {sending ? (
-                      <>
-                        <span
-                          style={{
-                            width: 18,
-                            height: 18,
-                            border: "2.5px solid rgba(255,255,255,.3)",
-                            borderTopColor: "#fff",
-                            borderRadius: "50%",
-                            animation: "contact-spin .6s linear infinite",
-                          }}
-                        />
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        <Send size={18} /> Submit Free IT Check Request
-                      </>
-                    )}
-                  </button>
+                    <button
+                      type="submit"
+                      disabled={sending}
+                      className="btn-interactive"
+                      style={{
+                        width: "100%",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 10,
+                        background: sending
+                          ? C.muted
+                          : isDark
+                            ? "linear-gradient(135deg, #0284c7 0%, #2563eb 100%)"
+                            : "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
+                        color: "#ffffff",
+                        padding: isMobile ? "15px 24px" : "17px 28px",
+                        borderRadius: 16,
+                        fontWeight: 700,
+                        fontSize: isMobile ? "1rem" : "1.08rem",
+                        border: isDark ? "1px solid rgba(0, 240, 255, 0.3)" : "none",
+                        cursor: sending ? "not-allowed" : "pointer",
+                        boxShadow: isDark
+                          ? "0 8px 30px -6px rgba(2, 132, 199, 0.45)"
+                          : "0 8px 30px -6px rgba(37, 99, 235, 0.4)",
+                        transition: "all .25s ease",
+                        opacity: sending ? 0.7 : 1,
+                        fontFamily: "inherit",
+                      }}
+                    >
+                      {sending ? (
+                        <>
+                          <span
+                            style={{
+                              width: 18,
+                              height: 18,
+                              border: "2.5px solid rgba(255,255,255,.3)",
+                              borderTopColor: "#fff",
+                              borderRadius: "50%",
+                              animation: "contact-spin .6s linear infinite",
+                            }}
+                          />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <Send size={18} /> Submit Free IT Check Request
+                        </>
+                      )}
+                    </button>
 
-                  <p
-                    style={{
-                      textAlign: "center",
-                      color: C.muted,
-                      fontSize: ".76rem",
-                      marginTop: 14,
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    🔒 Your information is secure and will never be shared with third parties.
-                  </p>
+                    <p
+                      style={{
+                        textAlign: "center",
+                        color: C.muted,
+                        fontSize: ".76rem",
+                        marginTop: 14,
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      🔒 Your information is secure and will never be shared with third parties.
+                    </p>
 
-                  <style>{`
+                    <style>{`
                     @keyframes contact-spin {
                       to { transform: rotate(360deg); }
                     }
                   `}</style>
-                </form>
-              ) : (
-                /* ─── Success State ─── */
-                <div
-                  style={{
-                    position: "relative",
-                    zIndex: 2,
-                    textAlign: "center",
-                    padding: isMobile ? "30px 10px" : "50px 20px",
-                  }}
-                >
+                  </form>
+                ) : (
+                  /* ─── Success State ─── */
                   <div
                     style={{
-                      width: 72,
-                      height: 72,
-                      borderRadius: "50%",
-                      background: isDark
-                        ? "linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(56, 189, 248, 0.1))"
-                        : "linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(56, 189, 248, 0.08))",
-                      display: "grid",
-                      placeItems: "center",
-                      margin: "0 auto 20px",
-                      border: `2px solid ${C.pine}`,
+                      position: "relative",
+                      zIndex: 2,
+                      textAlign: "center",
+                      padding: isMobile ? "30px 10px" : "50px 20px",
                     }}
                   >
-                    <CheckCircle2 size={32} color={C.pine} />
+                    <div
+                      style={{
+                        width: 72,
+                        height: 72,
+                        borderRadius: "50%",
+                        background: isDark
+                          ? "linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(56, 189, 248, 0.1))"
+                          : "linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(56, 189, 248, 0.08))",
+                        display: "grid",
+                        placeItems: "center",
+                        margin: "0 auto 20px",
+                        border: `2px solid ${C.pine}`,
+                      }}
+                    >
+                      <CheckCircle2 size={32} color={C.pine} />
+                    </div>
+                    <h3
+                      style={{
+                        fontFamily: DISPLAY,
+                        fontWeight: 700,
+                        fontSize: isMobile ? "1.4rem" : "1.7rem",
+                        color: C.ink,
+                        marginBottom: 10,
+                      }}
+                    >
+                      Request received!
+                    </h3>
+                    <p
+                      style={{
+                        color: C.muted,
+                        fontSize: isMobile ? ".95rem" : "1.05rem",
+                        lineHeight: 1.65,
+                        maxWidth: "40ch",
+                        margin: "0 auto 28px",
+                      }}
+                    >
+                      Thanks, <strong style={{ color: C.ink }}>{form.name}</strong>! Our team will review your details and get back to you within a few hours.
+                    </p>
+                    <button
+                      onClick={() => {
+                        setSubmitted(false);
+                        setForm({ name: "", email: "", phone: "", company: "", service: "", message: "" });
+                      }}
+                      style={{
+                        background: isDark ? "rgba(56, 189, 248, 0.1)" : "rgba(37, 99, 235, 0.08)",
+                        border: `1.5px solid ${C.pine}`,
+                        color: C.pine,
+                        padding: "12px 24px",
+                        borderRadius: 999,
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        fontSize: ".95rem",
+                        fontFamily: "inherit",
+                        transition: "all .2s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = C.pine;
+                        e.currentTarget.style.color = isDark ? "#0f172a" : "#ffffff";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = isDark ? "rgba(56, 189, 248, 0.1)" : "rgba(37, 99, 235, 0.08)";
+                        e.currentTarget.style.color = C.pine;
+                      }}
+                    >
+                      Submit another request
+                    </button>
                   </div>
-                  <h3
-                    style={{
-                      fontFamily: DISPLAY,
-                      fontWeight: 700,
-                      fontSize: isMobile ? "1.4rem" : "1.7rem",
-                      color: C.ink,
-                      marginBottom: 10,
-                    }}
-                  >
-                    Request received!
-                  </h3>
-                  <p
-                    style={{
-                      color: C.muted,
-                      fontSize: isMobile ? ".95rem" : "1.05rem",
-                      lineHeight: 1.65,
-                      maxWidth: "40ch",
-                      margin: "0 auto 28px",
-                    }}
-                  >
-                    Thanks, <strong style={{ color: C.ink }}>{form.name}</strong>! Our team will review your details and get back to you within a few hours.
-                  </p>
-                  <button
-                    onClick={() => {
-                      setSubmitted(false);
-                      setForm({ name: "", email: "", phone: "", company: "", service: "", message: "" });
-                    }}
-                    style={{
-                      background: isDark ? "rgba(56, 189, 248, 0.1)" : "rgba(37, 99, 235, 0.08)",
-                      border: `1.5px solid ${C.pine}`,
-                      color: C.pine,
-                      padding: "12px 24px",
-                      borderRadius: 999,
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      fontSize: ".95rem",
-                      fontFamily: "inherit",
-                      transition: "all .2s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = C.pine;
-                      e.currentTarget.style.color = isDark ? "#0f172a" : "#ffffff";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = isDark ? "rgba(56, 189, 248, 0.1)" : "rgba(37, 99, 235, 0.08)";
-                      e.currentTarget.style.color = C.pine;
-                    }}
-                  >
-                    Submit another request
-                  </button>
-                </div>
-              )}
-            </div>
-          </Reveal>
+                )}
+              </div>
+            </Reveal>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
     </>
   );
 }
